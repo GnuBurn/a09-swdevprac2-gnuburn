@@ -6,7 +6,7 @@ import InteractiveCard from './InteractiveCard'
 
 export default function Card(
   { venueName, imgSrc, rating, onRate }:
-  { venueName: string, imgSrc: string, rating: number, onRate: (rating: number) => void }
+  { venueName: string, imgSrc: string, rating?: number, onRate?: (rating: number) => void }
 ) {
   return (
     <div className="w-72">
@@ -20,13 +20,17 @@ export default function Card(
           />
         </div>
         <div className="px-5 pt-4 text-base font-bold text-emerald-950">{venueName}</div>
-        <div data-testid={`${venueName} Rating`} className="px-5 pb-4">
-          <Rating
-            name={`${venueName}-rating`}
-            value={rating}
-            onChange={(_, newValue) => onRate(newValue ?? 0)}
-          />
-        </div>
+        {onRate ? (
+          <div data-testid={`${venueName} Rating`} className="px-5 pb-4">
+            <Rating
+              name={`${venueName}-rating`}
+              value={rating ?? 0}
+              onChange={(_, newValue) => onRate(newValue ?? 0)}
+            />
+          </div>
+        ) : (
+          <div className="pb-4" />
+        )}
       </InteractiveCard>
     </div>
   );
